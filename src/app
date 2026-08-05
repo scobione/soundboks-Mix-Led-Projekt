@@ -1,0 +1,38 @@
+import {GlowBluetooth} from './bluetooth.js';
+
+const bt = new GlowBluetooth();
+const $ = s => document.querySelector(s);
+const effects = ['Solid','Rainbow','Pulse','Strobe','Meteor','Fire','Music','VU Meter','Spectrum','Party'];
+const presets = ['Cyan Pulse','Pink Party','Rainbow','Warm','Music VU','Police','Ocean','Disco'];
+const ledCount = 48;
+let state = {effect:'Solid',color:'#00d9ff',brightness:80,speed:50,music:70};
+
+function renderLeds() {
+  const box=$('#leds'); box.innerHTML='';
+  for(let i=0;i<ledCount;i++){const e=document.createElement('div');e.className='led';e.style.color=state.color;e.style.background=state.color;e.style.opacity=state.brightness/100;box.appendChild(e)}
+}
+function command() {
+  bt.send({cmd:'state',...state}).catch(console.error);
+}
+function setEffect(name) {
+  state.effect=name; document.querySelectorAll('.effect').forEach(x=>x.classList.toggle('active',x.dataset.effect===name)); command();
+}
+effects.forEach(x=>{const b=document.createElement('button');b.className='effect';b.dataset.effect=x;b.textContent=x;b.onclick=()=>setEffect(x);$('#effects').appendChild(b)});
+presets.forEach((x,i)=>{const b=document.createElement('button');b.className='preset';b.textContent=x;b.onclick=()=>{state.effect=effects[i%effects.length];state.color=['#00d9ff','#ff00a8','#7cff00','#ff7a00','#ffffff'][i%5];$('#color').value=state.color;setEffect(state.effect);renderLeds()};$('#presets').appendChild(b)});
+
+$('#color').oninput=e=>{state.color=e.target.value;renderLeds();command()};
+document.querySelectorAll('.swatch').forEach(b=>b.onclick=()=>{$('#color').value=b.dataset.color;$('#color').dispatchEvent(new Event('input'))});
+[['brightness','brightnessOut'],['speed','speedOut'],['music','musicOut']].forEach(([id,out])=>{
+  $('#'+id).oninput=e=>{state[id]=+e.target.value;$('#'+out).textContent=e.target.value+'%';renderLeds();command()}
+});
+$('#connectBtn').onclick=async()=>{
+  try{const name=await bt.connect();$('#deviceName').textContent=name;$('#status').textContent='â Verbunden';$('#status').className='status online';$('#hint').textContent='BLE-Verbindung aktiv.'}
+  catch(e){alert(e.message)}
+};
+$('#testBtn').onclick=()=>{
+  if(!bt.test){bt.enableTest();$('#testBtn').textContent='Testmodus: AN';$('#deviceName').textContent='SoundMix Glow TEST';$('#status').textContent='â Test verbunden';$('#status').className='status online';$('#hint').textContent='Alle Bedienelemente arbeiten im simulierten TestgerÃ¤t.';startTestAudio()}
+  else{bt.disableTest();$('#testBtn').textContent='Testmodus: AUS';$('#deviceName').textContent='Kein GerÃ¤t verbunden';$('#status').textContent='â Getrennt';$('#status').className='status offline'}
+};
+let t=0;
+function startTestAudio(){setInterval(()=>{if(!bt.test)return;t+=.12;const level=(Math.sin(t*4)+1)/2;document.querySelectorAll('.led').forEach((e,i)=>{const v=(Math.sin(t*5+i*.45)+1)/2;e.style.opacity=Math.max(.05,(level*.7+v*.3)*(state.brightness/100))})},45)}
+renderLeds();setEffect('Solid');
