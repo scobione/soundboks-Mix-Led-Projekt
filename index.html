@@ -1,71 +1,9 @@
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SoundMix Glow</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="app">
-    <header>
-      <div>
-        <div class="eyebrow">DIY LIGHT CONTROLLER</div>
-        <h1>SoundMix <span>Glow</span></h1>
-      </div>
-      <div id="status" class="status offline">● Getrennt</div>
-    </header>
-
-    <section class="hero">
-      <div class="device">
-        <div class="speaker"></div>
-        <div id="leds" class="leds"></div>
-      </div>
-      <div class="device-info">
-        <div class="label">GERÄT</div>
-        <strong id="deviceName">Kein Gerät verbunden</strong>
-        <button id="connectBtn" class="primary">Bluetooth verbinden</button>
-        <button id="testBtn" class="secondary">Testmodus: AUS</button>
-        <p id="hint">Im Testmodus wird „SoundMix Glow TEST“ als simuliertes Gerät verwendet.</p>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="card">
-        <div class="card-title">Effekte</div>
-        <div id="effects" class="effects"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Farbe</div>
-        <input id="color" type="color" value="#00d9ff">
-        <div class="color-row">
-          <button class="swatch" data-color="#00d9ff"></button>
-          <button class="swatch" data-color="#ff00a8"></button>
-          <button class="swatch" data-color="#7cff00"></button>
-          <button class="swatch" data-color="#ffffff"></button>
-          <button class="swatch" data-color="#ff7a00"></button>
-        </div>
-      </div>
-
-      <div class="card sliders">
-        <label>Helligkeit <output id="brightnessOut">80%</output>
-          <input id="brightness" type="range" min="0" max="100" value="80">
-        </label>
-        <label>Geschwindigkeit <output id="speedOut">50%</output>
-          <input id="speed" type="range" min="0" max="100" value="50">
-        </label>
-        <label>Musik-Reaktion <output id="musicOut">70%</output>
-          <input id="music" type="range" min="0" max="100" value="70">
-        </label>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Presets</div>
-        <div id="presets" class="presets"></div>
-      </div>
-    </section>
-  </main>
-  <script type="module" src="src/app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SoundMix Glow</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="app"><header><div><div class="eyebrow">DIY LIGHT CONTROLLER</div><h1>SoundMix <span>Glow</span></h1></div><div id="status" class="status offline">● Getrennt</div></header>
+<section class="hero card"><div class="device"><div class="speaker"></div><div id="leds" class="leds"></div><div id="musicBars" class="music-bars"></div></div><div class="device-info"><div class="label">GERÄT</div><strong id="deviceName">Kein Gerät verbunden</strong><button id="connectBtn" class="primary">🔵 Bluetooth verbinden</button><button id="testBtn" class="secondary">🧪 Testmodus: AUS</button><small id="hint">Testmodus simuliert den ESP32 vollständig.</small></div></section>
+<nav class="tabs"><button class="tab active" data-tab="effectsTab">Effekte</button><button class="tab" data-tab="colorTab">Farben</button><button class="tab" data-tab="musicTab">Musik</button><button class="tab" data-tab="presetsTab">Presets</button></nav>
+<section id="effectsTab" class="panel active"><div class="section-head"><h2>Effekte</h2><button id="randomBtn" class="small">🎲 Zufall</button></div><div id="effects" class="effect-grid"></div></section>
+<section id="colorTab" class="panel"><div class="section-head"><h2>Farbe</h2><button id="rainbowBtn" class="small">🌈 Regenbogen</button></div><input id="color" type="color" value="#00d9ff" class="color-picker"><div id="palette" class="palette"></div><div class="custom-row"><label>HEX<input id="hex" value="#00D9FF" maxlength="7"></label><button id="applyHex" class="small">Übernehmen</button></div></section>
+<section id="musicTab" class="panel"><div class="section-head"><h2>Musik-Modus</h2><span class="pill">Simulation</span></div><div class="music-controls"><button class="music-mode active" data-mode="beat">🥁 Beat</button><button class="music-mode" data-mode="vu">📊 VU Meter</button><button class="music-mode" data-mode="spectrum">🎚 Spectrum</button><button class="music-mode" data-mode="pulse">💓 Bass Pulse</button></div><label class="slider-label">Empfindlichkeit <output id="sensitivityOut">70%</output><input id="sensitivity" type="range" min="0" max="100" value="70"></label><label class="slider-label">Reaktionszeit <output id="reactionOut">50%</output><input id="reaction" type="range" min="0" max="100" value="50"></label><button id="musicToggle" class="primary full">🎵 Musik-Reaktion AN</button></section>
+<section id="presetsTab" class="panel"><div class="section-head"><h2>Presets</h2><button id="savePreset" class="small">＋ Speichern</button></div><div id="presets" class="preset-grid"></div></section>
+<section class="bottom-controls card"><label class="slider-label">Helligkeit <output id="brightnessOut">80%</output><input id="brightness" type="range" min="0" max="100" value="80"></label><label class="slider-label">Geschwindigkeit <output id="speedOut">50%</output><input id="speed" type="range" min="0" max="100" value="50"></label><div class="quick"><button id="offBtn" class="danger">● Licht aus</button><button id="onBtn" class="secondary">● Licht an</button></div></section></div><script type="module" src="src/app.js"></script></body></html>
