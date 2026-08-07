@@ -1,5 +1,7 @@
-# SoundMix Glow v2
-Komplett überarbeitete Version: funktionierende Buttons, 24 Effekte, 48-Farben-Palette, Presets, eigene Presets, Musik-Simulation, Helligkeit, Geschwindigkeit, Musik-Empfindlichkeit und BLE-Struktur.
+# SoundMix Glow V4
+Premium mobile-first DIY controller.
+
+Features: redesigned dashboard, 24 effects, 47 colors, color lab, 16 presets, custom presets, smooth simulated audio visualizer, Beat/VU/Spectrum/Bass modes, brightness/speed/intensity/sensitivity/response controls, BLE-ready test architecture.
 
 Render:
 Build Command: `echo "No build required"`
